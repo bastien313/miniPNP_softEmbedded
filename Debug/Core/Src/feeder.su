@@ -1,0 +1,15 @@
+feeder.c:19:6:feederScan	24	static
+feeder.c:35:6:feederLedOn	32	static
+feeder.c:43:6:feederLedOff	32	static
+feeder.c:53:15:feederGetStatus	32	static
+feeder.c:60:15:feederIsBusy	16	static
+feeder.c:68:6:feederFlashSave	32	static
+feeder.c:77:6:feederSendStep	32	static
+feeder.c:86:6:feederGetName	32	static
+feeder.c:109:6:feederSetName	32	static
+feeder.c:119:6:feederGetPos	16	static
+feeder.c:126:6:feederSetPos	24	static
+feeder.c:133:6:feederSetStepSize	24	static
+feeder.c:138:15:feederGetStepSize	32	static
+feeder.c:145:6:feederSetCMPB	24	static
+feeder.c:150:15:feederGetCMPB	32	static

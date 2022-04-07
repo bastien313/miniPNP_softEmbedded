@@ -1,0 +1,17 @@
+stm32g4xx_ll_dma.h:518:22:LL_DMA_EnableChannel	24	static
+stm32g4xx_ll_dma.h:540:22:LL_DMA_DisableChannel	24	static
+stm32g4xx_ll_dma.h:998:22:LL_DMA_SetDataLength	32	static
+stm32g4xx_ll_dma.h:1093:22:LL_DMA_SetMemoryAddress	32	static
+stm32g4xx_ll_dma.h:1118:22:LL_DMA_SetPeriphAddress	32	static
+stm32g4xx_ll_dma.h:2032:22:LL_DMA_ClearFlag_TC1	16	static
+stm32g4xx_ll_usart.h:2986:26:LL_USART_IsActiveFlag_TC	16	static
+stm32g4xx_ll_usart.h:4134:22:LL_USART_EnableDMAReq_TX	16	static
+com.c:14:6:rcClearBuffer	24	static
+com.c:33:6:rcInit	16	static
+com.c:47:15:rcGetCommand	32	static
+com.c:83:6:tcClearBuffer	24	static
+com.c:94:6:tcInit	24	static
+com.c:103:6:tcDMAconfigure	24	static
+com.c:113:6:tcDMASend	16	static
+com.c:134:6:tcDMASendStr	24	static
+com.c:148:6:tcIntSendStr	32	static

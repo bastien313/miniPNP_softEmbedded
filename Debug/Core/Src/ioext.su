@@ -1,0 +1,13 @@
+stm32g4xx_ll_spi.h:1357:22:LL_SPI_TransmitData8	24	static
+stm32g4xx_ll_gpio.h:286:22:LL_GPIO_SetPinMode	40	static,ignoring_inline_asm
+stm32g4xx_ll_gpio.h:895:22:LL_GPIO_SetOutputPin	16	static
+stm32g4xx_ll_gpio.h:924:22:LL_GPIO_ResetOutputPin	16	static
+ioext.c:20:6:updateIo	24	static
+ioext.c:32:6:initExtIo	8	static
+ioext.c:40:6:driverEnable	32	static
+ioext.c:52:6:driverDisable	32	static
+ioext.c:64:6:driverResetOn	32	static
+ioext.c:76:6:driverResetOff	32	static
+ioext.c:90:6:setStepDiv	24	static
+ioext.c:122:6:driverDir	16	static
+ioext.c:159:6:setDecayMode	24	static
