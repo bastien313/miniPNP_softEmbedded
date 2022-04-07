@@ -1,0 +1,1 @@
+# miniPNP_softEmbedded
