@@ -1,9 +1,9 @@
-stm32g4xx_ll_gpio.h:895:22:LL_GPIO_SetOutputPin	16	static
-stm32g4xx_ll_gpio.h:924:22:LL_GPIO_ResetOutputPin	16	static
-gpio.h:113:29:homeXisOn	4	static
-gpio.h:122:29:homeYisOn	4	static
-gpio.h:131:29:homeZisOn	4	static
-gpio.h:140:29:homeTisOn	4	static
+stm32g4xx_ll_gpio.h:894:22:LL_GPIO_SetOutputPin	16	static
+stm32g4xx_ll_gpio.h:923:22:LL_GPIO_ResetOutputPin	16	static
+gpio.h:114:29:homeXisOn	4	static
+gpio.h:123:29:homeYisOn	4	static
+gpio.h:132:29:homeZisOn	4	static
+gpio.h:141:29:homeTisOn	4	static
 hardControl.c:14:6:hcInit	16	static
 hardControl.c:28:6:hcSetZHeadOffset	16	static
 hardControl.c:32:7:hcGetZHeadOffset	16	static

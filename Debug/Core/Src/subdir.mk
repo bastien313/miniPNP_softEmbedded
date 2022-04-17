@@ -6,6 +6,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/IHMctrl.c \
+../Core/Src/VCNL3040.c \
+../Core/Src/VCNL40x0.c \
 ../Core/Src/com.c \
 ../Core/Src/dma.c \
 ../Core/Src/feeder.c \
@@ -27,6 +29,8 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/IHMctrl.o \
+./Core/Src/VCNL3040.o \
+./Core/Src/VCNL40x0.o \
 ./Core/Src/com.o \
 ./Core/Src/dma.o \
 ./Core/Src/feeder.o \
@@ -48,6 +52,8 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/IHMctrl.d \
+./Core/Src/VCNL3040.d \
+./Core/Src/VCNL40x0.d \
 ./Core/Src/com.d \
 ./Core/Src/dma.d \
 ./Core/Src/feeder.d \
@@ -75,7 +81,7 @@ Core/Src/%.o: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/IHMctrl.d ./Core/Src/IHMctrl.o ./Core/Src/com.d ./Core/Src/com.o ./Core/Src/dma.d ./Core/Src/dma.o ./Core/Src/feeder.d ./Core/Src/feeder.o ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/hardControl.d ./Core/Src/hardControl.o ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/ioext.d ./Core/Src/ioext.o ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/motor.d ./Core/Src/motor.o ./Core/Src/option.d ./Core/Src/option.o ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/stm32g4xx_hal_msp.d ./Core/Src/stm32g4xx_hal_msp.o ./Core/Src/stm32g4xx_it.d ./Core/Src/stm32g4xx_it.o ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/system_stm32g4xx.d ./Core/Src/system_stm32g4xx.o ./Core/Src/tim.d ./Core/Src/tim.o ./Core/Src/usart.d ./Core/Src/usart.o
+	-$(RM) ./Core/Src/IHMctrl.d ./Core/Src/IHMctrl.o ./Core/Src/VCNL3040.d ./Core/Src/VCNL3040.o ./Core/Src/VCNL40x0.d ./Core/Src/VCNL40x0.o ./Core/Src/com.d ./Core/Src/com.o ./Core/Src/dma.d ./Core/Src/dma.o ./Core/Src/feeder.d ./Core/Src/feeder.o ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/hardControl.d ./Core/Src/hardControl.o ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/ioext.d ./Core/Src/ioext.o ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/motor.d ./Core/Src/motor.o ./Core/Src/option.d ./Core/Src/option.o ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/stm32g4xx_hal_msp.d ./Core/Src/stm32g4xx_hal_msp.o ./Core/Src/stm32g4xx_it.d ./Core/Src/stm32g4xx_it.o ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/system_stm32g4xx.d ./Core/Src/system_stm32g4xx.o ./Core/Src/tim.d ./Core/Src/tim.o ./Core/Src/usart.d ./Core/Src/usart.o
 
 .PHONY: clean-Core-2f-Src
 

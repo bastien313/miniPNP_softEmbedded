@@ -1,22 +1,22 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * File Name          : I2C.c
-  * Description        : This file provides code for the configuration
-  *                      of the I2C instances.
+  * @file    i2c.c
+  * @brief   This file provides code for the configuration
+  *          of the I2C instances.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
-
+/* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "i2c.h"
 
@@ -25,7 +25,7 @@
 #define DELAYMS_TIMEOUT 2
 volatile unsigned int I2C_timeout = 0;
 
-unsigned char I2CWrite(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data)
+unsigned char I2CWriteWithoutStop(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data)
 {
 	LL_I2C_SetSlaveAddr(I2Cx, slaveAddr);
 
@@ -52,11 +52,61 @@ unsigned char I2CWrite(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char 
 		}
 		LL_I2C_TransmitData8(I2Cx, data[i]);
 	}
+
 	//delay_us(200);
 	return 1;
+}
+
+unsigned char I2CWrite(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data)
+{
+	unsigned char err = I2CWriteWithoutStop(I2Cx, slaveAddr, addrReg, size, data);
+	while(!LL_I2C_IsActiveFlag_TC(I2Cx))
+	{
+		/*if(!I2C_timeout)
+			return 0;*/
+	}
+	LL_I2C_GenerateStopCondition(I2Cx);
+	return err;
 
 }
 
+/*
+ * Read without stop between read and write
+ */
+unsigned char I2CRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data)
+{
+	unsigned char ghost;
+	I2CWriteWithoutStop(I2Cx,slaveAddr,addrReg,0, &ghost);
+	I2C_timeout = DELAYMS_TIMEOUT;
+	while(!LL_I2C_IsActiveFlag_TC(I2Cx))
+	{
+		if(!I2C_timeout)
+			return 0;
+	}
+	LL_I2C_SetTransferSize(I2Cx, size);
+	LL_I2C_SetTransferRequest(I2Cx,LL_I2C_REQUEST_READ);
+	LL_I2C_GenerateStartCondition(I2Cx);
+
+	for(unsigned int i = 0; i<size; i++)
+	{
+		I2C_timeout = DELAYMS_TIMEOUT;
+		while(!LL_I2C_IsActiveFlag_RXNE(I2Cx))
+		{
+			if(!I2C_timeout)
+				return 0;
+		}
+		data[i] = LL_I2C_ReceiveData8(I2Cx);
+	}
+	while(!LL_I2C_IsActiveFlag_TC(I2Cx))
+	{
+		if(!I2C_timeout)
+			return 0;
+	}
+	LL_I2C_GenerateStopCondition(I2Cx);
+	//delay_us(100);
+	return 1;
+}
+/*
 unsigned char I2CRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data)
 {
 	unsigned char ghost;
@@ -83,12 +133,12 @@ unsigned char I2CRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char a
 	}
 	while(LL_I2C_IsActiveFlag_BUSY(I2Cx))
 	{
-		/*if(!I2C_timeout)
-			return 0;*/
+		//if(!I2C_timeout)
+		//	return 0;
 	}
 	//delay_us(100);
 	return 1;
-}
+}*/
 
 /*
  * return 0 if timeout occur.
@@ -113,6 +163,10 @@ void myI2Cinit(void)
 	LL_I2C_Disable(I2C3);
 	LL_I2C_EnableAutoEndMode(I2C3);
 	LL_I2C_Enable(I2C3);
+
+	LL_I2C_Disable(I2C2);
+	LL_I2C_DisableAutoEndMode(I2C2);
+	LL_I2C_Enable(I2C2);
 }
 
 
@@ -121,9 +175,16 @@ void myI2Cinit(void)
 /* I2C2 init function */
 void MX_I2C2_Init(void)
 {
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
   LL_I2C_InitTypeDef I2C_InitStruct = {0};
 
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  LL_RCC_SetI2CClockSource(LL_RCC_I2C2_CLKSOURCE_PCLK1);
 
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOA);
@@ -150,6 +211,9 @@ void MX_I2C2_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C2);
 
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
   /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
@@ -165,14 +229,24 @@ void MX_I2C2_Init(void)
   LL_I2C_DisableOwnAddress2(I2C2);
   LL_I2C_DisableGeneralCall(I2C2);
   LL_I2C_EnableClockStretching(I2C2);
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
 
 }
 /* I2C3 init function */
 void MX_I2C3_Init(void)
 {
+
+  /* USER CODE BEGIN I2C3_Init 0 */
+
+  /* USER CODE END I2C3_Init 0 */
+
   LL_I2C_InitTypeDef I2C_InitStruct = {0};
 
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  LL_RCC_SetI2CClockSource(LL_RCC_I2C3_CLKSOURCE_PCLK1);
 
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOC);
   /**I2C3 GPIO Configuration
@@ -198,6 +272,9 @@ void MX_I2C3_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C3);
 
+  /* USER CODE BEGIN I2C3_Init 1 */
+
+  /* USER CODE END I2C3_Init 1 */
   /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
@@ -213,11 +290,12 @@ void MX_I2C3_Init(void)
   LL_I2C_DisableOwnAddress2(I2C3);
   LL_I2C_DisableGeneralCall(I2C3);
   LL_I2C_EnableClockStretching(I2C3);
+  /* USER CODE BEGIN I2C3_Init 2 */
+
+  /* USER CODE END I2C3_Init 2 */
 
 }
 
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

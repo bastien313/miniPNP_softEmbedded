@@ -11,6 +11,7 @@
 #include "hardControl.h"
 #include "feeder.h"
 #include "IHMctrl.h"
+#include "VCNL3040.h"
 
 
 
@@ -20,6 +21,8 @@ char bufferRc[250];
 volatile transmitterController tcPc;
 char bufferTc[250];
 volatile hardControl hc;
+
+VCNL3040 scanSensor;
 
 machineState appState;
 homingState appHomingState;
@@ -44,6 +47,23 @@ unsigned int axisIsEna(drvChan axis)
 {
 	return (axisEenableRequest & (0x01 << axis));
 }
+/*
+void Scan(void)
+{
+	unsigned int amountscan = 0;
+	unsigned char scanLIst[127];
+	for(unsigned int i = 1; i<127; i++)
+	{
+		unsigned char val;
+		scanLIst[i] = 0;
+		if(I2CRead(I2C2, i << 1, REGISTER_ID, 1, &val))
+		{
+			scanLIst[amountscan] = i << 1;
+			amountscan++;
+		}
+	}
+	amountscan= 18;
+}*/
 
 void IHMctrlInit(void)
 {
@@ -51,6 +71,7 @@ void IHMctrlInit(void)
 	tcInit(&tcPc, USART1, bufferTc, 250); //(volatile transmitterController *tc, USART_TypeDef *us, char *buffAdr, unsigned int siz)
 	tcDMAconfigure(&tcPc,DMA1, 0);
 	hcInit(&hc);
+	VCNL3040_Init(&scanSensor, I2C2);
 
 	appState = waiting;
 	moveRequestArr[0] = 0.0f;
@@ -63,6 +84,7 @@ void IHMctrlInit(void)
 	watchDogTime = userTick;
 	watchdogMode = 0;
 	pipe1StatusMode = 0;
+
 }
 /*
 void exctractParam(char *strIn, char delimiter, char *strOut)
@@ -402,6 +424,14 @@ void readCommand(char *cmd)
 			tcDMASendStr(&tcPc,"00\r");
 		else
 			tcDMASendStr(&tcPc,"01\r");
+	}
+	else if( cmd[0] == '5' && cmd[1] == '0' && cmd[2] == '0')
+	{
+		char distStr[20];
+		uint16_t numericDistance = 0;
+		VCNL3040_getProximity(&scanSensor,&numericDistance);
+		sprintf(distStr,"0%d\r",numericDistance);
+		tcDMASendStr(&tcPc,distStr);
 	}
 	else
 		tcDMASendStr(&tcPc,"0R Command unknown\r");

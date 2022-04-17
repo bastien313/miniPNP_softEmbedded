@@ -44,7 +44,7 @@ Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h \
  ../Core/Inc/gpio.h ../Core/Inc/hardControl.h ../Core/Inc/motor.h \
  ../Core/Inc/ioext.h ../Core/Inc/gpio.h ../Core/Inc/feeder.h \
- ../Core/Inc/i2c.h ../Core/Inc/IHMctrl.h
+ ../Core/Inc/i2c.h ../Core/Inc/IHMctrl.h ../Core/Inc/VCNL3040.h
 
 ../Core/Src/com.h:
 
@@ -151,3 +151,5 @@ Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
 ../Core/Inc/i2c.h:
 
 ../Core/Inc/IHMctrl.h:
+
+../Core/Inc/VCNL3040.h:

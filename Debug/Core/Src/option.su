@@ -1,5 +1,5 @@
-stm32g4xx_ll_gpio.h:895:22:LL_GPIO_SetOutputPin	16	static
-stm32g4xx_ll_gpio.h:924:22:LL_GPIO_ResetOutputPin	16	static
+stm32g4xx_ll_gpio.h:894:22:LL_GPIO_SetOutputPin	16	static
+stm32g4xx_ll_gpio.h:923:22:LL_GPIO_ResetOutputPin	16	static
 option.c:21:6:flashWriteQ31	80	static
 option.c:91:14:chkSumCalc	24	static
 option.c:106:7:optWriteFlash	184	static
