@@ -436,6 +436,14 @@ void readCommand(char *cmd)
 		sprintf(distStr,"0%d\r",numericDistance);
 		tcDMASendStr(&tcPc,distStr);
 	}
+	else if( cmd[0] == '6' && cmd[1] == '0' && cmd[2] == '0')
+	{
+		char distStr[20];
+		float presure = 0;
+		ABP_readPresureFloat(&presureSensor, &presure);
+		sprintf(distStr,"0%0.4f\r",presure);
+		tcDMASendStr(&tcPc,distStr);
+	}
 	else
 		tcDMASendStr(&tcPc,"0R Command unknown\r");
 }
