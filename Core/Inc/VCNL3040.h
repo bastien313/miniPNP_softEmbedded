@@ -90,9 +90,9 @@ static const uint8_t VCNL3040_INT_FLAG_CLOSE = (1 << 1);
 static const uint8_t VCNL3040_INT_FLAG_AWAY = (1 << 0);
 
 typedef enum {
-    VCNL40x0_ERROR_OK = 0,               // Everything executed normally
-	VCNL40x0_ERROR_TIMEOUT,
-	VCNL40x0_ERROR_WRONG_ID
+    VCNL3040_ERROR_OK = 0,               // Everything executed normally
+	VCNL3040_ERROR_TIMEOUT,
+	VCNL3040_ERROR_WRONG_ID
 
 } VCNL3040Error_e;
 

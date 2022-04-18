@@ -12,6 +12,7 @@
 #include "feeder.h"
 #include "IHMctrl.h"
 #include "VCNL3040.h"
+#include "ABP_presure.h"
 
 
 
@@ -23,6 +24,7 @@ char bufferTc[250];
 volatile hardControl hc;
 
 VCNL3040 scanSensor;
+ABP_presure presureSensor;
 
 machineState appState;
 homingState appHomingState;
@@ -72,6 +74,7 @@ void IHMctrlInit(void)
 	tcDMAconfigure(&tcPc,DMA1, 0);
 	hcInit(&hc);
 	VCNL3040_Init(&scanSensor, I2C2);
+	ABP_Init(&presureSensor, I2C2, 15.0, -15.0);
 
 	appState = waiting;
 	moveRequestArr[0] = 0.0f;
@@ -705,9 +708,10 @@ void printStatus(void)
 {
 	char statBuffTmp[100];
 	float pos[4];
+	float presure;
 	hcGetPos(&hc,pos);
-
-	sprintf(statBuffTmp,"1X:%.4f Y:%.4f Z:%.4f C:%.4f\r",pos[X],pos[Y],pos[Z],pos[T]);
+	ABP_readPresureFloat(&presureSensor, &presure);
+	sprintf(statBuffTmp,"1X:%.4f Y:%.4f Z:%.4f C:%.4f P:%.4f\r",pos[X],pos[Y],pos[Z],pos[T], presure);
 	tcDMASendStr(&tcPc,statBuffTmp);
 }
 

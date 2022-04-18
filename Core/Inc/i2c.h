@@ -41,6 +41,7 @@ void MX_I2C3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 unsigned char I2CWrite(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data);
+unsigned char I2CSimpleRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned int size, unsigned char *data);
 unsigned char I2CRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, unsigned int size, unsigned char *data);
 unsigned char I2CReadF(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, float *val);
 unsigned char I2CWriteF(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char addrReg, float val);

@@ -1,5 +1,6 @@
-Core/Src/com.o: ../Core/Src/com.c ../Core/Inc/com.h ../Core/Inc/usart.h \
- ../Core/Inc/main.h ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
+Core/Src/ABP_presure.o: ../Core/Src/ABP_presure.c \
+ ../Core/Inc/ABP_presure.h ../Core/Inc/i2c.h ../Core/Inc/main.h \
+ ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
  ../Core/Inc/stm32g4xx_hal_conf.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rcc.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h \
@@ -40,12 +41,11 @@ Core/Src/com.o: ../Core/Src/com.c ../Core/Inc/com.h ../Core/Inc/usart.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_spi.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_tim.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h \
- ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h \
- ../Core/Inc/gpio.h
+ ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h
 
-../Core/Inc/com.h:
+../Core/Inc/ABP_presure.h:
 
-../Core/Inc/usart.h:
+../Core/Inc/i2c.h:
 
 ../Core/Inc/main.h:
 
@@ -132,5 +132,3 @@ Core/Src/com.o: ../Core/Src/com.c ../Core/Inc/com.h ../Core/Inc/usart.h \
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h:
 
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h:
-
-../Core/Inc/gpio.h:

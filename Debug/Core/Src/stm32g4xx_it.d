@@ -42,8 +42,8 @@ Core/Src/stm32g4xx_it.o: ../Core/Src/stm32g4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h \
  ../Core/Inc/stm32g4xx_it.h ../Core/Inc/gpio.h ../Core/Inc/main.h \
- ../Core/Src/com.h ../Core/Inc/usart.h ../Core/Inc/hardControl.h \
- ../Core/Inc/motor.h ../Core/Inc/ioext.h ../Core/Inc/gpio.h
+ ../Core/Inc/com.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
+ ../Core/Inc/hardControl.h ../Core/Inc/motor.h ../Core/Inc/ioext.h
 
 ../Core/Inc/main.h:
 
@@ -137,14 +137,14 @@ Core/Src/stm32g4xx_it.o: ../Core/Src/stm32g4xx_it.c ../Core/Inc/main.h \
 
 ../Core/Inc/main.h:
 
-../Core/Src/com.h:
+../Core/Inc/com.h:
 
 ../Core/Inc/usart.h:
+
+../Core/Inc/gpio.h:
 
 ../Core/Inc/hardControl.h:
 
 ../Core/Inc/motor.h:
 
 ../Core/Inc/ioext.h:
-
-../Core/Inc/gpio.h:

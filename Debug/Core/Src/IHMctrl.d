@@ -1,4 +1,4 @@
-Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
+Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Inc/com.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
  ../Core/Inc/stm32g4xx_hal_conf.h \
@@ -43,10 +43,10 @@ Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_gpio.h \
  ../Core/Inc/gpio.h ../Core/Inc/hardControl.h ../Core/Inc/motor.h \
- ../Core/Inc/ioext.h ../Core/Inc/gpio.h ../Core/Inc/feeder.h \
- ../Core/Inc/i2c.h ../Core/Inc/IHMctrl.h ../Core/Inc/VCNL3040.h
+ ../Core/Inc/ioext.h ../Core/Inc/feeder.h ../Core/Inc/i2c.h \
+ ../Core/Inc/IHMctrl.h ../Core/Inc/VCNL3040.h ../Core/Inc/ABP_presure.h
 
-../Core/Src/com.h:
+../Core/Inc/com.h:
 
 ../Core/Inc/usart.h:
 
@@ -144,8 +144,6 @@ Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
 
 ../Core/Inc/ioext.h:
 
-../Core/Inc/gpio.h:
-
 ../Core/Inc/feeder.h:
 
 ../Core/Inc/i2c.h:
@@ -153,3 +151,5 @@ Core/Src/IHMctrl.o: ../Core/Src/IHMctrl.c ../Core/Src/com.h \
 ../Core/Inc/IHMctrl.h:
 
 ../Core/Inc/VCNL3040.h:
+
+../Core/Inc/ABP_presure.h:

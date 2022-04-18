@@ -35,10 +35,10 @@ VCNL3040Error_e VCNL3040_Init(VCNL3040 *dev, I2C_TypeDef *i2cPort)
   uint16_t id = 0;
   VCNL3040Error_e err = VCNL3040_getID(dev, &id);
 
-  if (err != VCNL40x0_ERROR_OK)
+  if (err != VCNL3040_ERROR_OK)
 	  return err;
   if (id != 0x0186)
-	  return VCNL40x0_ERROR_WRONG_ID; //Check default ID value
+	  return VCNL3040_ERROR_WRONG_ID; //Check default ID value
 
   //Configure the various parts of the sensor
   VCNL3040_setLEDCurrent(dev, 200); //Max IR LED current
@@ -47,14 +47,14 @@ VCNL3040Error_e VCNL3040_Init(VCNL3040 *dev, I2C_TypeDef *i2cPort)
   VCNL3040_setProxResolution(dev,16); //Set to 16-bit output
   VCNL3040_enableSmartPersistance(dev); //Turn on smart presistance
   VCNL3040_powerOnProximity(dev); //Turn on prox sensing
-  return VCNL40x0_ERROR_OK;
+  return VCNL3040_ERROR_OK;
 }
 
 //Test to see if the device is responding
 unsigned int VCNL3040_isConnected(VCNL3040 *dev)
 {
 	uint16_t id;
-	return (VCNL3040_getID(dev, &id) == VCNL40x0_ERROR_OK) ? 1 : 0;
+	return (VCNL3040_getID(dev, &id) == VCNL3040_ERROR_OK) ? 1 : 0;
 }
 
 
@@ -260,17 +260,17 @@ VCNL3040Error_e VCNL3040_readCommand(VCNL3040 *dev, uint8_t commandCode, uint16_
 	unsigned int succes = I2CRead(dev->_i2cPort, VCNL3040_ADDR, commandCode, 2, rData);
 	*readData = (((uint16_t)rData[1]) << 8) | rData[0];
 
-	return succes ? VCNL40x0_ERROR_OK : VCNL40x0_ERROR_TIMEOUT;
+	return succes ? VCNL3040_ERROR_OK : VCNL3040_ERROR_TIMEOUT;
 }
 
 //Write two bytes to a given command code location (8 bits)
-//return VCNL40x0_ERROR_OK if succes.
+//return VCNL3040_ERROR_OK if succes.
 VCNL3040Error_e VCNL3040_writeCommand(VCNL3040 *dev, uint8_t commandCode, uint16_t value)
 {
 	unsigned char send[2];
 	send[0] = value & 0xFF;
 	send[1] = value >> 8;
-	return I2CWrite(dev->_i2cPort, VCNL3040_ADDR, commandCode, 2, send) ? VCNL40x0_ERROR_OK : VCNL40x0_ERROR_TIMEOUT;
+	return I2CWrite(dev->_i2cPort, VCNL3040_ADDR, commandCode, 2, send) ? VCNL3040_ERROR_OK : VCNL3040_ERROR_TIMEOUT;
 }
 
 //Given a command code (address) write to the lower byte without affecting the upper byte
@@ -278,7 +278,7 @@ VCNL3040Error_e VCNL3040_writeCommandLower(VCNL3040 *dev, uint8_t commandCode, u
 {
   uint16_t commandValue;
   VCNL3040Error_e err = VCNL3040_readCommand(dev, commandCode, &commandValue);
-  if(err != VCNL40x0_ERROR_OK)
+  if(err != VCNL3040_ERROR_OK)
 	  return err;
   commandValue &= 0xFF00; //Remove lower 8 bits
   commandValue |= (uint16_t)newValue; //Mask in
@@ -290,7 +290,7 @@ VCNL3040Error_e VCNL3040_writeCommandUpper(VCNL3040 *dev, uint8_t commandCode, u
 {
   uint16_t commandValue;
   VCNL3040Error_e err = VCNL3040_readCommand(dev, commandCode, &commandValue);
-  if(err != VCNL40x0_ERROR_OK)
+  if(err != VCNL3040_ERROR_OK)
 	  return err;
   commandValue &= 0x00FF; //Remove upper 8 bits
   commandValue |= (uint16_t)newValue << 8; //Mask in
@@ -328,7 +328,7 @@ VCNL3040Error_e VCNL3040_bitMask(VCNL3040 *dev, uint8_t commandAddress, unsigned
 
   if (commandHeight == LOWER) err = VCNL3040_readCommandLower(dev, commandAddress, &registerContents);
   else err = VCNL3040_readCommandUpper(dev, commandAddress, &registerContents);
-  if(err != VCNL40x0_ERROR_OK)
+  if(err != VCNL3040_ERROR_OK)
 	  return err;
 
   // Zero-out the portions of the register we're interested in
