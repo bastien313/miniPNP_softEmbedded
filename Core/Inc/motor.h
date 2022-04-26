@@ -23,6 +23,7 @@ struct PAPController{
 	float accel;	// acceleration of motor step/s²
 	float maxSpeedTarget; // max speed target step/s, is a configuration and never used by motor class.
 	float speedTarget; // speed target step/s
+	float minSpeed;
 
 
 	int stepPos; // position of mechanical in step
@@ -41,7 +42,7 @@ struct PAPController{
 
 };
 
-void PAPinit(volatile PAPController *pap,TIM_TypeDef* tim, drvChan ch, unsigned char (*pf)(void));
+void PAPinit(volatile PAPController *pap,TIM_TypeDef* tim, drvChan ch, unsigned char (*pf)(void), float minSpeed);
 void PAPaccelControl(volatile PAPController *pap);
 void PAPmoveRequest(volatile PAPController *pap, float distance, float multSpeed);
 void PAPsetDir(volatile PAPController *pap, int dir);
@@ -86,8 +87,8 @@ __attribute__((always_inline))
 static inline float PAPgetSpeed(volatile PAPController *pap)
 {
 	return pap->maxSpeedTarget / pap->stepBymm;
-	if(pap->maxSpeedTarget < MIN_SPEED)
-	pap->maxSpeedTarget = MIN_SPEED;
+	if(pap->maxSpeedTarget < pap->minSpeed)
+	pap->maxSpeedTarget =  pap->minSpeed;
 }
 
 /*

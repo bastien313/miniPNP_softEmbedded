@@ -1,6 +1,6 @@
 motor.c:20:6:PAPcomputeTIMvalue	16	static
-motor.c:28:6:PAPinit	24	static
-motor.c:55:6:PAPaccelControl	24	static
-motor.c:89:6:PAPaccelRampCalc	24	static
-motor.c:100:6:PAPsetDir	16	static
-motor.c:111:6:PAPmoveRequest	32	static
+motor.c:28:6:PAPinit	32	static
+motor.c:56:6:PAPaccelControl	24	static
+motor.c:90:6:PAPaccelRampCalc	24	static
+motor.c:101:6:PAPsetDir	16	static
+motor.c:112:6:PAPmoveRequest	32	static

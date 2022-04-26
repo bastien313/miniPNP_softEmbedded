@@ -14,10 +14,10 @@
 void hcInit(volatile hardControl *hc)
 {
 	hc->coordMode = absolute;
-	PAPinit(&(hc->motorPap[X]), TIM2, X, homeXisOn);
-	PAPinit(&(hc->motorPap[Y]), TIM3, Y, homeYisOn);
-	PAPinit(&(hc->motorPap[Z]), TIM4, Z, homeZisOn);
-	PAPinit(&(hc->motorPap[T]), TIM5, T, homeTisOn);
+	PAPinit(&(hc->motorPap[X]), TIM2, X, homeXisOn,MIN_SPEED);
+	PAPinit(&(hc->motorPap[Y]), TIM3, Y, homeYisOn,MIN_SPEED);
+	PAPinit(&(hc->motorPap[Z]), TIM4, Z, homeZisOn,MIN_SPEED);
+	PAPinit(&(hc->motorPap[T]), TIM5, T, homeTisOn,170.0f);
 	optReadFlash(hc);
 }
 

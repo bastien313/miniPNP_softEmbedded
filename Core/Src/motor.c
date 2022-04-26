@@ -25,17 +25,18 @@ void PAPcomputeTIMvalue(volatile PAPController *pap)
 }
 
 
-void PAPinit(volatile PAPController *pap,TIM_TypeDef* tim, drvChan ch, unsigned char (*pf)(void))
+void PAPinit(volatile PAPController *pap,TIM_TypeDef* tim, drvChan ch, unsigned char (*pf)(void), float minSpeed)
 {
 	pap->stepPos = 0;
 	pap->stepNeeded = 0;
-	pap->speed = MIN_SPEED;
+	pap->speed =  pap->minSpeed;
 	pap->direction = 1;
 
 	pap->channel = ch;
 	pap->onePulseTIM = tim;
 
 	pap->pfHome = pf;
+	pap->minSpeed = minSpeed;
 
 	setStepDiv(ch, DIV16);
 
@@ -58,12 +59,12 @@ void PAPaccelControl(volatile PAPController *pap)
 	if(pap->stepNeeded < pap->stepAccel)
 	{
 		//Deceleration
-		if(pap->speed > MIN_SPEED)
+		if(pap->speed >  pap->minSpeed)
 		{
 			pap->speed -= (pap->accel/1000.0);
 
-			if(pap->speed < MIN_SPEED)
-				pap->speed = MIN_SPEED;
+			if(pap->speed <  pap->minSpeed)
+				pap->speed =  pap->minSpeed;
 			PAPcomputeTIMvalue(pap);
 		}
 	}
@@ -88,8 +89,8 @@ void PAPaccelControl(volatile PAPController *pap)
  */
 void PAPaccelRampCalc(volatile PAPController *pap)
 {
-	float tRamp = (pap->speedTarget - MIN_SPEED)/pap->accel;
-	pap->stepAccel = (MIN_SPEED * tRamp) + (0.5f*pap->accel*tRamp*tRamp);
+	float tRamp = (pap->speedTarget -  pap->minSpeed)/pap->accel;
+	pap->stepAccel = ( pap->minSpeed * tRamp) + (0.5f*pap->accel*tRamp*tRamp);
 }
 
 
@@ -126,7 +127,7 @@ void PAPmoveRequest(volatile PAPController *pap, float distance, float multSpeed
 	if(pap->stepAccel > (pap->stepNeeded/2))
 		pap->stepAccel = pap->stepNeeded/2;
 
-	pap->speed = MIN_SPEED;
+	pap->speed =  pap->minSpeed;
 	PAPcomputeTIMvalue(pap);
 	pap->onePulseTIM->CNT = 0;
 	pap->onePulseTIM->EGR |= TIM_EGR_UG; // force Update event and take account of PSC.

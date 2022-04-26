@@ -43,7 +43,7 @@ VCNL3040Error_e VCNL3040_Init(VCNL3040 *dev, I2C_TypeDef *i2cPort)
   //Configure the various parts of the sensor
   VCNL3040_setLEDCurrent(dev, 200); //Max IR LED current
   VCNL3040_setIRDutyCycle(dev, 40); //Set to highest duty cycle
-  VCNL3040_setProxIntegrationTime(dev, 8); //Set to max integratio
+  VCNL3040_setProxIntegrationTime(dev, 2); //Set to max integratio
   VCNL3040_setProxResolution(dev,16); //Set to 16-bit output
   VCNL3040_enableSmartPersistance(dev); //Turn on smart presistance
   VCNL3040_powerOnProximity(dev); //Turn on prox sensing

@@ -39,8 +39,8 @@ unsigned char I2CWriteWithoutStop(I2C_TypeDef *I2Cx,unsigned char slaveAddr, uns
 	{
 		if(!I2C_timeout)
 		{
-			return 0;
 			LL_I2C_GenerateStopCondition(I2Cx);
+			return 0;
 		}
 	}
 	LL_I2C_TransmitData8(I2Cx, addrReg);
@@ -52,8 +52,8 @@ unsigned char I2CWriteWithoutStop(I2C_TypeDef *I2Cx,unsigned char slaveAddr, uns
 		{
 			if(!I2C_timeout)
 			{
-				return 0;
 				LL_I2C_GenerateStopCondition(I2Cx);
+				return 0;
 			}
 		}
 		LL_I2C_TransmitData8(I2Cx, data[i]);
@@ -82,6 +82,7 @@ unsigned char I2CWrite(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char 
 unsigned char I2CSimpleRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned int size, unsigned char *data)
 {
 	LL_I2C_SetTransferSize(I2Cx, size);
+	LL_I2C_SetSlaveAddr(I2Cx, slaveAddr);
 	LL_I2C_SetTransferRequest(I2Cx,LL_I2C_REQUEST_READ);
 	LL_I2C_GenerateStartCondition(I2Cx);
 
@@ -92,8 +93,9 @@ unsigned char I2CSimpleRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned 
 		{
 			if(!I2C_timeout)
 			{
-				return 0;
 				LL_I2C_GenerateStopCondition(I2Cx);
+				return 0;
+
 			}
 		}
 		data[i] = LL_I2C_ReceiveData8(I2Cx);
@@ -102,8 +104,8 @@ unsigned char I2CSimpleRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned 
 	{
 		if(!I2C_timeout)
 		{
-			return 0;
 			LL_I2C_GenerateStopCondition(I2Cx);
+			return 0;
 		}
 	}
 	LL_I2C_GenerateStopCondition(I2Cx);
@@ -124,8 +126,8 @@ unsigned char I2CRead(I2C_TypeDef *I2Cx,unsigned char slaveAddr, unsigned char a
 	{
 		if(!I2C_timeout)
 		{
-			return 0;
 			LL_I2C_GenerateStopCondition(I2Cx);
+			return 0;
 		}
 	}
 	return I2CSimpleRead(I2Cx, slaveAddr, size, data);

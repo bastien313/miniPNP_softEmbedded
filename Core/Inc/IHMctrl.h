@@ -19,6 +19,22 @@ enum homingState{
 };
 
 
+#define SIZE_SCAN_DATA 1000
+typedef struct scanRequestParam scanRequestParam;
+struct scanRequestParam{
+	char axis;
+	unsigned int idAxis;
+	float stepMesurment;
+	unsigned int nbMesure;
+	float lengt;
+	float speed;
+	float lastScanPos;
+	unsigned int isEnable;
+	unsigned short scanVal[1000];
+	float axisScanVal[1000];
+};
+
+
 void IHMctrlInit(void);
 void externalCom(void);
 void appLoop(void);

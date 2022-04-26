@@ -8,7 +8,7 @@
 #include "ABP_presure.h"
 
 
-const uint8_t ABP_ADDR = 0x80; //7-bit unshifted I2C address of VCNL4040
+const uint8_t ABP_ADDR = 0x50;//0x28;
 
 
 void ABP_Init(ABP_presure *dev, I2C_TypeDef *i2cPort, float pMax, float pMin)

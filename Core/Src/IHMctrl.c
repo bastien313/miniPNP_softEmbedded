@@ -36,6 +36,9 @@ float moveRequestArr[4]; //Temporary move data request, passed by external com t
 unsigned int axisEenableRequest; //Temporary axis enable data, passed by external com to rest of program.
 //unsigned int stopRequest;// Set this variable to 1 to stop all movement on going.
 
+scanRequestParam scanRequest;
+
+
 unsigned int watchDogTime;
 unsigned int statusTime;
 #define WATCHDOG_TIMEOUT 400 // 400ms
@@ -86,7 +89,7 @@ void IHMctrlInit(void)
 	statusTime = userTick;
 	watchDogTime = userTick;
 	watchdogMode = 0;
-	pipe1StatusMode = 0;
+	pipe1StatusMode = 1;
 
 }
 /*
@@ -436,6 +439,25 @@ void readCommand(char *cmd)
 		sprintf(distStr,"0%d\r",numericDistance);
 		tcDMASendStr(&tcPc,distStr);
 	}
+	else if( cmd[0] == '5' && cmd[1] == '0' && cmd[2] == '1')
+	{
+		char moveStr[40];
+		float posTemp[4];
+		sscanf(&cmd[4],"A%c N%u L%f F%f", &scanRequest.axis, &scanRequest.nbMesure, &scanRequest.lengt, &scanRequest.speed);
+		scanRequest.stepMesurment = scanRequest.lengt / (float)scanRequest.nbMesure;
+		scanRequest.nbMesure = 0;
+		scanRequest.isEnable = 1;
+		if(scanRequest.axis == 'X') 	  scanRequest.idAxis = 0;
+		else if (scanRequest.axis == 'Y') scanRequest.idAxis = 1;
+		else if (scanRequest.axis == 'Z') scanRequest.idAxis = 2;
+		else if (scanRequest.axis == 'C') scanRequest.idAxis = 3;
+		hcGetPos(&hc, posTemp);
+		scanRequest.lastScanPos = posTemp[scanRequest.idAxis];
+		hcSetCoordMode(&hc, relative);
+		sprintf(moveStr, "F%f %c%f", scanRequest.speed, scanRequest.axis, scanRequest.lengt);
+		moveCommand(moveStr);
+
+	}
 	else if( cmd[0] == '6' && cmd[1] == '0' && cmd[2] == '0')
 	{
 		char distStr[20];
@@ -632,6 +654,34 @@ void externalCom(void)
 	}
 }
 
+void scanLine(void)
+{
+	if(hcIsMoving(&hc) && scanRequest.nbMesure < SIZE_SCAN_DATA)
+	{
+		float posTemp[4];
+		hcGetPos(&hc, posTemp);
+		if ((posTemp[scanRequest.idAxis] - scanRequest.lastScanPos) > scanRequest.stepMesurment)
+		{
+			scanRequest.axisScanVal[scanRequest.nbMesure] = posTemp[scanRequest.idAxis];
+			scanRequest.lastScanPos = posTemp[scanRequest.idAxis];
+			VCNL3040_getProximity(&scanSensor,&scanRequest.scanVal[scanRequest.nbMesure]);
+			scanRequest.nbMesure++;
+		}
+	}
+	else // send data;
+	{
+		char lineOut[30];
+		sprintf(lineOut,"0%u\r",scanRequest.nbMesure);
+		tcDMASendStr(&tcPc,lineOut);
+		for(unsigned int i=0; i<scanRequest.nbMesure; i++)
+		{
+			sprintf(lineOut,"0%f %u\r",scanRequest.axisScanVal[i], scanRequest.scanVal[i]);
+			tcDMASendStr(&tcPc,lineOut);
+		}
+		scanRequest.isEnable = 0;
+	}
+}
+
 void homeFunction(void)
 {
 	static float oldSpeed[4];
@@ -754,6 +804,10 @@ void appLoop(void)
 	{
 		printStatus();
 		statusTime = userTick;
+	}
+	if(scanRequest.isEnable)
+	{
+		scanLine();
 	}
 }
 
