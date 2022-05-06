@@ -89,7 +89,7 @@ void IHMctrlInit(void)
 	statusTime = userTick;
 	watchDogTime = userTick;
 	watchdogMode = 0;
-	pipe1StatusMode = 1;
+	pipe1StatusMode = 0;
 
 }
 /*

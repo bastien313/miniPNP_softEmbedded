@@ -1318,9 +1318,9 @@ void IHMctrlInit(void)
  8000f28:	4b12      	ldr	r3, [pc, #72]	; (8000f74 <IHMctrlInit+0xc8>)
  8000f2a:	2200      	movs	r2, #0
  8000f2c:	601a      	str	r2, [r3, #0]
-	pipe1StatusMode = 1;
+	pipe1StatusMode = 0;
  8000f2e:	4b12      	ldr	r3, [pc, #72]	; (8000f78 <IHMctrlInit+0xcc>)
- 8000f30:	2201      	movs	r2, #1
+ 8000f30:	2200      	movs	r2, #0
  8000f32:	601a      	str	r2, [r3, #0]
 
 }
