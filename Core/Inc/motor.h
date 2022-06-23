@@ -87,8 +87,6 @@ __attribute__((always_inline))
 static inline float PAPgetSpeed(volatile PAPController *pap)
 {
 	return pap->maxSpeedTarget / pap->stepBymm;
-	if(pap->maxSpeedTarget < pap->minSpeed)
-	pap->maxSpeedTarget =  pap->minSpeed;
 }
 
 /*
@@ -160,13 +158,27 @@ __attribute__((always_inline))
 static inline void PAPstepManage(volatile PAPController *pap)
 {
 	// Limit protection
-	if(pap->pfHome() || pap->stop)
+	if(pap->pfHome())
 		pap->stepNeeded = 0;
 
 	if(pap->stepNeeded)
 	{
 		pap->stepNeeded--;
 		pap->stepPos += pap->direction;// Update position
+		if(pap->stop)
+		{
+			//Stop mode
+			if(pap->speed > pap->minSpeed)
+			{
+				//we put in decelartion mode and waith wile speed is hight
+				pap->stepNeeded = 1;
+			}
+			else
+			{
+				// speed is low, we stop
+				pap->stepNeeded = 0;
+			}
+		}
 	}
 	else
 	{

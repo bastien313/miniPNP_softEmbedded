@@ -29,7 +29,7 @@ void PAPinit(volatile PAPController *pap,TIM_TypeDef* tim, drvChan ch, unsigned 
 {
 	pap->stepPos = 0;
 	pap->stepNeeded = 0;
-	pap->speed =  pap->minSpeed;
+	pap->speed =  minSpeed;
 	pap->direction = 1;
 
 	pap->channel = ch;

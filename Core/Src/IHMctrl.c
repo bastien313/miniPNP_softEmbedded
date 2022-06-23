@@ -241,34 +241,25 @@ void homeCommand(char *cmd)
  */
 void moveCommand(char *cmd)
 {
-	char *ptrFind = strpbrk(cmd,"F");
+	char *ptrFind = strpbrk(cmd,"FF");
 	if(ptrFind)
 	{
 		float speed;
 		//exctractParam(ptrFind,' ',strParam);
 		sscanf(ptrFind+1,"%f",&speed);
-		if(strpbrk(cmd,"C"))
-			hcSetRotationSpeed(&hc, speed);
-		else
-			hcSetLinearSpeed(&hc, speed);
+		hcSetLinearSpeed(&hc, speed);
+	}
+	char *ptrFind = strpbrk(cmd,"FC");
+	if(ptrFind)
+	{
+		float speed;
+		//exctractParam(ptrFind,' ',strParam);
+		sscanf(ptrFind+1,"%f",&speed);
+		hcSetRotationSpeed(&hc, speed);
 	}
 
 	axisEenableRequest = getFloatAxisVal(cmd,moveRequestArr);
 	appState = moveRequest;
-	/*driverEnable(X);
-	driverEnable(Y);
-	driverEnable(Z);
-	driverEnable(T);
-
-	// start movement.
-	hcMove(&hc, moveTab);
-
-	while(hcIsMoving(&hc));
-	sendPos();
-	driverDisable(X);
-	driverDisable(Y);
-	driverDisable(Z);
-	driverDisable(T);*/
 }
 
 
